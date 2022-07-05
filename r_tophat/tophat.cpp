@@ -5,13 +5,13 @@
 
 template <typename T>
 void tophat(T arr[], size_t len, size_t wnd_size, std::ostream& out) {
-    T* buffer = new T[len - wnd_size];
+    T* buffer = new T[len];
 
     std::deque<T> q;
     for (int i = 0; i < len; ++i) {
         if (i >= wnd_size) {
             if (i == wnd_size) {
-                for (int j = 0; j < wnd_size; ++j)
+                for (int j = 0; j <= wnd_size; ++j)
                     buffer[j] = arr[j] - q.front();
             } else {
                 buffer[i] = arr[i] - q.front();
@@ -25,10 +25,8 @@ void tophat(T arr[], size_t len, size_t wnd_size, std::ostream& out) {
 
     buffer[len - 1] = arr[len - 1] - q.front();
 
-    len -= wnd_size * 2;
-
-    for (int i = wnd_size; i < len; ++i)
-        out << (buffer[i] - buffer[i - wnd_size]) * buffer[i] - buffer[i + wnd_size] << ",";
+    for (int i = wnd_size; i < len - wnd_size; ++i)
+        out << (buffer[i] - buffer[i - wnd_size]) * (buffer[i] - buffer[i + wnd_size]) << ",";
 
     delete[] buffer;
 }
